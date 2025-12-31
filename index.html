@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heart to Star</title>
+    <title>For Sanvi ❤️</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -34,9 +34,29 @@
             position: relative;
         }
         
+        /* Welcome message */
+        .welcome-message {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            animation: welcomeFade 3s ease-out forwards;
+            z-index: 1;
+        }
+        
+        .welcome-text {
+            color: #ff69b4;
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+            letter-spacing: 1px;
+        }
+        
         /* Heart styling - centered vertically */
         .heart-container {
-            margin: 0 auto;
+            margin: 40px auto 0;
             position: relative;
             height: 100%;
             min-height: 180px;
@@ -148,6 +168,41 @@
             animation-delay: 2s;
         }
         
+        /* Romantic Quote */
+        .romantic-quote {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 2s ease;
+            z-index: 2;
+            pointer-events: none;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 105, 180, 0.3);
+            display: none;
+        }
+        
+        .romantic-quote.show {
+            opacity: 1;
+            display: block;
+        }
+        
+        .romantic-quote p {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            margin: 0;
+            color: #ffccff;
+        }
+        
         /* Signature - subtle but visible */
         .signature {
             position: fixed;
@@ -220,6 +275,25 @@
             word-break: break-word;
         }
         
+        /* Meeting countdown */
+        .meeting-countdown {
+            color: #ff69b4;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 105, 180, 0.3);
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        .meeting-countdown.show {
+            opacity: 1;
+        }
+        
         /* Cloud-shaped message containers */
         .cloud-container {
             display: flex;
@@ -268,6 +342,84 @@
             right: 35px;
         }
         
+        /* Memory Frame */
+        .memory-frame {
+            width: 90%;
+            max-width: 280px;
+            margin: 30px auto 0;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+        
+        .memory-frame.show {
+            opacity: 1;
+        }
+        
+        .polaroid {
+            background: white;
+            padding: 12px 12px 35px;
+            transform: rotate(2deg);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+        
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+        
+        .photo-placeholder {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(45deg, #ff69b4, #ffb6c1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .photo-placeholder:before {
+            content: '💖';
+            position: absolute;
+            font-size: 40px;
+            animation: photoSparkle 3s infinite;
+        }
+        
+        .caption {
+            text-align: center;
+            color: #333;
+            font-style: italic;
+            margin-top: 12px;
+            font-size: 0.85rem;
+        }
+        
+        /* Surprise Message */
+        .surprise-message {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            opacity: 0;
+            transition: opacity 1s ease;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.5);
+            z-index: 4;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .surprise-message.show {
+            opacity: 1;
+            display: block;
+            animation: surpriseBounce 2s ease infinite;
+        }
+        
         /* Sparkle effect */
         .sparkle {
             position: fixed;
@@ -280,7 +432,36 @@
             z-index: 1;
         }
         
-        /* Animations optimized for mobile */
+        /* Love Notes */
+        .love-note {
+            position: fixed;
+            color: #ff69b4;
+            font-size: 1.8rem;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 2;
+            animation: floatNote 8s linear forwards;
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 3;
+        }
+        
+        /* Animations */
+        @keyframes welcomeFade {
+            0% { opacity: 0; transform: translateY(-20px); }
+            20% { opacity: 1; transform: translateY(0); }
+            80% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+        
         @keyframes heartbeat {
             from { transform: scale(1); }
             to { transform: scale(1.08); }
@@ -343,6 +524,50 @@
             }
         }
         
+        @keyframes photoSparkle {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        @keyframes surpriseBounce {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+        
+        @keyframes floatNote {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(20deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
         /* Touch device optimizations */
         @media (hover: hover) {
             .heart:hover {
@@ -366,6 +591,10 @@
             .container {
                 max-width: 700px;
                 padding: 30px 20px;
+            }
+            
+            .welcome-text {
+                font-size: 1.6rem;
             }
             
             .heart {
@@ -398,6 +627,20 @@
                 right: 20px;
                 font-size: 0.9rem;
             }
+            
+            .romantic-quote {
+                font-size: 1.2rem;
+                padding: 25px;
+            }
+            
+            .memory-frame {
+                max-width: 320px;
+            }
+            
+            .photo-placeholder {
+                height: 200px;
+                font-size: 60px;
+            }
         }
         
         /* Landscape mode optimization */
@@ -408,6 +651,7 @@
             
             .heart-container {
                 min-height: 140px;
+                margin-top: 20px;
             }
             
             .heart {
@@ -436,11 +680,26 @@
                 right: 8px;
                 font-size: 0.8rem;
             }
+            
+            .romantic-quote {
+                font-size: 0.9rem;
+                padding: 15px;
+            }
+            
+            .memory-frame {
+                margin-top: 20px;
+                max-width: 250px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Welcome Message -->
+        <div class="welcome-message" id="welcomeMessage">
+            <span class="welcome-text">For Sanvi 🌟</span>
+        </div>
+        
         <div class="heart-container">
             <div class="heart" id="heart">
                 <i class="fas fa-heart"></i>
@@ -458,6 +717,12 @@
             </div>
         </div>
         
+        <!-- Romantic Quote -->
+        <div class="romantic-quote" id="romanticQuote">
+            <p>"Some hearts understand each other, even when they're apart."</p>
+        </div>
+        
+        <!-- Messages -->
         <div class="messages" id="messages">
             <div class="message-box" id="topLeft">
                 <h3>Happy New Year, Sanvi</h3>
@@ -468,9 +733,14 @@
                 <h3>Time Since We Last Met</h3>
                 <p>I know we haven't met since:</p>
                 <div class="timer" id="timer">27th April 2025 at 6:30 PM</div>
+                <!-- Meeting Countdown -->
+                <div class="meeting-countdown" id="meetingCountdown">
+                    Counting down to our next meeting...
+                </div>
             </div>
         </div>
         
+        <!-- Cloud Messages -->
         <div class="cloud-container" id="cloudContainer">
             <div class="cloud-message" id="leftCloud">
                 May we get success this year in all our endeavors. Let's work hard and achieve our goals together!
@@ -480,10 +750,34 @@
                 We'll meet soon! Looking forward to the day when we can catch up in person and create wonderful memories.
             </div>
         </div>
+        
+        <!-- Memory Frame -->
+        <div class="memory-frame" id="memoryFrame">
+            <div class="frame-content">
+                <div class="polaroid">
+                    <div class="photo-placeholder"></div>
+                    <div class="caption">A beautiful memory waiting to be created...</div>
+                </div>
+            </div>
+        </div>
     </div>
     
-    <!-- Signature - only visible in second interface -->
+    <!-- Surprise Message -->
+    <div class="surprise-message" id="surpriseMessage">
+        <p>You're more special than you know ❤️</p>
+    </div>
+    
+    <!-- Signature -->
     <div class="signature" id="signature">- Your Friend Avi</div>
+
+    <!-- Audio Elements -->
+    <audio id="heartbeatSound" preload="auto">
+        <!-- Heartbeat sound will be generated -->
+    </audio>
+    
+    <audio id="sparkleSound" preload="auto">
+        <!-- Sparkle sound will be generated -->
+    </audio>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -494,6 +788,14 @@
             const cloudContainer = document.getElementById('cloudContainer');
             const timerElement = document.getElementById('timer');
             const signature = document.getElementById('signature');
+            const romanticQuote = document.getElementById('romanticQuote');
+            const meetingCountdown = document.getElementById('meetingCountdown');
+            const memoryFrame = document.getElementById('memoryFrame');
+            const surpriseMessage = document.getElementById('surpriseMessage');
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            
+            // Create audio context for sounds
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             
             // Set the countdown timer from 27th April 2025 at 6:30 PM
             const countDownDate = new Date("April 27, 2025 18:30:00").getTime();
@@ -513,6 +815,71 @@
                 timerElement.innerHTML = `${days} days, ${hours}h ${minutes}m ${seconds}s`;
             }
             
+            // Update meeting countdown
+            function updateMeetingCountdown() {
+                // Set a future meeting date (e.g., 3 months from now)
+                const meetingDate = new Date("July 27, 2025 18:30:00").getTime();
+                const now = new Date().getTime();
+                const distance = meetingDate - now;
+                
+                if (distance > 0) {
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    meetingCountdown.innerHTML = `Only ${days} days and ${hours} hours until we meet!`;
+                    meetingCountdown.classList.add('show');
+                }
+            }
+            
+            // Create heartbeat sound
+            function playHeartbeatSound() {
+                try {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = 523.25;
+                    oscillator.type = 'sine';
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                } catch (e) {
+                    console.log("Audio error:", e);
+                }
+            }
+            
+            // Create sparkle sound
+            function playSparkleSound() {
+                try {
+                    const oscillator1 = audioContext.createOscillator();
+                    const oscillator2 = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator1.connect(gainNode);
+                    oscillator2.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator1.frequency.value = 1046.50; // C6
+                    oscillator2.frequency.value = 1318.51; // E6
+                    oscillator1.type = 'sine';
+                    oscillator2.type = 'sine';
+                    
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+                    
+                    oscillator1.start(audioContext.currentTime);
+                    oscillator2.start(audioContext.currentTime);
+                    oscillator1.stop(audioContext.currentTime + 1);
+                    oscillator2.stop(audioContext.currentTime + 1);
+                } catch (e) {
+                    console.log("Audio error:", e);
+                }
+            }
+            
             // Initial call to display timer immediately
             updateTimer();
             
@@ -524,10 +891,16 @@
                 handleHeartClick();
             });
             
+            // Heart hover for heartbeat sound
+            heart.addEventListener('mouseenter', function() {
+                playHeartbeatSound();
+            });
+            
             // Touch event for better mobile response
             heart.addEventListener('touchstart', function(e) {
                 e.preventDefault();
                 this.style.transform = 'scale(1.1)';
+                playHeartbeatSound();
             });
             
             heart.addEventListener('touchend', function(e) {
@@ -537,6 +910,9 @@
             });
             
             function handleHeartClick() {
+                // Play sparkle sound
+                playSparkleSound();
+                
                 // Add clicked class to heart
                 heart.classList.add('clicked');
                 
@@ -553,10 +929,26 @@
                     messages.style.opacity = '1';
                     cloudContainer.style.opacity = '1';
                     
+                    // Show romantic quote
+                    setTimeout(() => {
+                        romanticQuote.classList.add('show');
+                        setTimeout(() => {
+                            romanticQuote.classList.remove('show');
+                        }, 5000);
+                    }, 1000);
+                    
                     // Show signature with delay
                     setTimeout(() => {
                         signature.classList.add('show');
                     }, 500);
+                    
+                    // Show memory frame
+                    setTimeout(() => {
+                        memoryFrame.classList.add('show');
+                    }, 1500);
+                    
+                    // Update meeting countdown
+                    updateMeetingCountdown();
                     
                     // Animate each message box sequentially
                     const messageBoxes = document.querySelectorAll('.message-box');
@@ -573,6 +965,12 @@
                 
                 // Create sparkle effect
                 createSparkles();
+                
+                // Create confetti
+                createConfetti();
+                
+                // Create love notes
+                createLoveNotes();
             }
             
             // Create sparkle effect around the star
@@ -634,7 +1032,80 @@
                 }, 3000);
             }
             
-            // Add some subtle background stars (fewer for mobile)
+            // Create confetti celebration
+            function createConfetti() {
+                const confettiContainer = document.createElement('div');
+                confettiContainer.style.position = 'fixed';
+                confettiContainer.style.top = '0';
+                confettiContainer.style.left = '0';
+                confettiContainer.style.width = '100%';
+                confettiContainer.style.height = '100%';
+                confettiContainer.style.pointerEvents = 'none';
+                confettiContainer.style.zIndex = '3';
+                document.body.appendChild(confettiContainer);
+                
+                const colors = ['#ff69b4', '#ffcc00', '#00ccff', '#00ff00', '#ff00ff', '#ffffff'];
+                const confettiCount = 100;
+                
+                for(let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = Math.random() * 10 + 5 + 'px';
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-20px';
+                    
+                    const animation = confetti.animate([
+                        { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
+                        { transform: `translate(${Math.random() * 100 - 50}px, 100vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                    ], {
+                        duration: Math.random() * 3000 + 2000,
+                        delay: Math.random() * 1000
+                    });
+                    
+                    confettiContainer.appendChild(confetti);
+                    
+                    animation.onfinish = () => confetti.remove();
+                }
+                
+                setTimeout(() => {
+                    if (confettiContainer.parentNode) {
+                        confettiContainer.parentNode.removeChild(confettiContainer);
+                    }
+                }, 5000);
+            }
+            
+            // Create floating love notes
+            function createLoveNotes() {
+                const notes = ['❤️', '🌟', '💫', '✨', '🥰', '💖', '🌙', '⭐'];
+                const noteCount = 8;
+                
+                for(let i = 0; i < noteCount; i++) {
+                    setTimeout(() => {
+                        const note = document.createElement('div');
+                        note.className = 'love-note';
+                        note.textContent = notes[Math.floor(Math.random() * notes.length)];
+                        note.style.left = Math.random() * 90 + 5 + 'vw';
+                        note.style.animationDelay = Math.random() * 2 + 's';
+                        document.body.appendChild(note);
+                        
+                        setTimeout(() => note.remove(), 8000);
+                    }, i * 300);
+                }
+            }
+            
+            // Show surprise message after 10 seconds
+            setTimeout(() => {
+                if(surpriseMessage) {
+                    surpriseMessage.classList.add('show');
+                    setTimeout(() => {
+                        if(surpriseMessage) surpriseMessage.classList.remove('show');
+                    }, 5000);
+                }
+            }, 10000);
+            
+            // Add some subtle background stars
             const starCount = window.innerWidth < 768 ? 30 : 50;
             for (let i = 0; i < starCount; i++) {
                 const bgStar = document.createElement('div');
@@ -653,7 +1124,6 @@
             
             // Handle orientation change
             window.addEventListener('orientationchange', function() {
-                // Brief timeout to allow orientation to complete
                 setTimeout(() => {
                     window.scrollTo(0, 0);
                 }, 100);
