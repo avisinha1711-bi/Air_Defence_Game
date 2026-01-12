@@ -25,7 +25,7 @@
             position: fixed;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #0a0a1a 0%, #101025 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -50,14 +50,14 @@
         
         .splash-screen h1 {
             font-size: 3em;
-            color: #ff0055;
+            color: #0088ff;
             margin-bottom: 20px;
             letter-spacing: 3px;
         }
         
         .splash-screen p {
             font-size: 1.5em;
-            color: #00ff88;
+            color: #00ffaa;
             margin: 30px 0;
             max-width: 600px;
             line-height: 1.6;
@@ -65,7 +65,7 @@
         
         .warning-text {
             font-size: 1.3em;
-            color: #ffaa00;
+            color: #ff6600;
             margin: 40px 0;
             letter-spacing: 2px;
         }
@@ -73,9 +73,9 @@
         .launch-btn {
             padding: 20px 60px;
             font-size: 1.5em;
-            background: #ff0055;
+            background: #0088ff;
             color: #fff;
-            border: 2px solid #ff0055;
+            border: 2px solid #0088ff;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
@@ -96,8 +96,8 @@
             max-width: 1200px;
             max-height: 600px;
             position: relative;
-            background: #87ceeb;
-            border: 2px solid #333;
+            background: #0a0a1a;
+            border: 2px solid #222;
             overflow: hidden;
         }
         
@@ -121,7 +121,7 @@
             right: 10px;
             width: 150px;
             height: 150px;
-            border: 2px solid #00ff88;
+            border: 2px solid #00ffaa;
             background: rgba(0, 0, 0, 0.8);
             border-radius: 50%;
             z-index: 100;
@@ -176,7 +176,7 @@
             position: fixed;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             display: none;
             justify-content: center;
             align-items: center;
@@ -192,22 +192,22 @@
         
         .game-over-screen h2 {
             font-size: 2.5em;
-            color: #ff0055;
+            color: #0088ff;
             margin-bottom: 20px;
         }
         
         .game-over-screen p {
             font-size: 1.3em;
-            color: #00ff88;
+            color: #00ffaa;
             margin: 10px 0;
         }
         
         .game-over-screen button {
             padding: 15px 50px;
             font-size: 1.2em;
-            background: #ff0055;
+            background: #0088ff;
             color: #fff;
-            border: 2px solid #ff0055;
+            border: 2px solid #0088ff;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
@@ -225,8 +225,8 @@
             right: 20px;
             background: rgba(0, 0, 0, 0.7);
             padding: 15px;
-            border: 2px solid #00ff88;
-            color: #00ff88;
+            border: 2px solid #00ffaa;
+            color: #00ffaa;
             font-size: 0.9em;
             z-index: 100;
             border-radius: 5px;
@@ -266,9 +266,9 @@
         }
 
         .cyber-button:disabled {
-            background: #555;
-            border-color: #555;
-            color: #999;
+            background: #333;
+            border-color: #333;
+            color: #666;
             cursor: not-allowed;
             box-shadow: none;
         }
@@ -276,9 +276,9 @@
         .cyber-cooldown {
             padding: 12px 24px;
             font-size: 1em;
-            background: #555;
-            color: #fff;
-            border: 2px solid #555;
+            background: #333;
+            color: #666;
+            border: 2px solid #333;
             border-radius: 5px;
             font-weight: bold;
             text-transform: uppercase;
@@ -337,6 +337,157 @@
         let spacePressed = false;
         let mouseX = canvas.width / 2;
         let mouseY = canvas.height / 2;
+        
+        // Background buildings data
+        const backgroundBuildings = [];
+        const midgroundBuildings = [];
+        
+        function createBackgroundBuildings() {
+            // Distant skyline buildings (very far away)
+            for (let i = 0; i < 15; i++) {
+                const x = (i * 100) + Math.random() * 50;
+                const width = 30 + Math.random() * 40;
+                const height = 100 + Math.random() * 200;
+                backgroundBuildings.push({
+                    x: x,
+                    width: width,
+                    height: height,
+                    color: `rgba(20, 25, 50, ${0.6 + Math.random() * 0.2})`,
+                    windows: Math.floor(height / 30),
+                    offset: Math.random() * 50
+                });
+            }
+            
+            // Midground buildings (closer but still far)
+            for (let i = 0; i < 10; i++) {
+                const x = (i * 120) + Math.random() * 80 - 40;
+                const width = 40 + Math.random() * 60;
+                const height = 150 + Math.random() * 250;
+                midgroundBuildings.push({
+                    x: x,
+                    width: width,
+                    height: height,
+                    color: `rgba(30, 35, 60, ${0.7 + Math.random() * 0.2})`,
+                    windows: Math.floor(height / 25),
+                    glow: Math.random() > 0.5
+                });
+            }
+        }
+        
+        function drawBackgroundBuildings() {
+            // Draw distant skyline
+            backgroundBuildings.forEach(building => {
+                const buildingY = canvas.height - 80 - building.height;
+                
+                // Building main structure
+                ctx.fillStyle = building.color;
+                ctx.fillRect(building.x, buildingY, building.width, building.height);
+                
+                // Building highlights
+                ctx.fillStyle = `rgba(40, 45, 80, 0.3)`;
+                ctx.fillRect(building.x + 2, buildingY + 2, building.width - 4, building.height - 4);
+                
+                // Building windows
+                for (let i = 0; i < building.windows; i++) {
+                    const windowX = building.x + 5 + Math.random() * (building.width - 10);
+                    const windowY = buildingY + 5 + i * 30 + building.offset;
+                    
+                    if (windowY < buildingY + building.height - 10) {
+                        ctx.fillStyle = Math.random() > 0.7 ? 'rgba(255, 200, 100, 0.3)' : 'rgba(100, 150, 255, 0.2)';
+                        ctx.fillRect(windowX, windowY, 4, 8);
+                    }
+                }
+                
+                // Building top
+                ctx.fillStyle = 'rgba(15, 20, 40, 0.8)';
+                ctx.fillRect(building.x - 5, buildingY, building.width + 10, 5);
+            });
+            
+            // Draw midground buildings
+            midgroundBuildings.forEach(building => {
+                const buildingY = canvas.height - 80 - building.height;
+                
+                // Building main structure with gradient
+                const gradient = ctx.createLinearGradient(
+                    building.x, buildingY,
+                    building.x + building.width, buildingY + building.height
+                );
+                gradient.addColorStop(0, building.color);
+                gradient.addColorStop(1, `rgba(20, 25, 50, ${0.8})`);
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(building.x, buildingY, building.width, building.height);
+                
+                // Building edges
+                ctx.strokeStyle = 'rgba(50, 55, 90, 0.4)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(building.x, buildingY, building.width, building.height);
+                
+                // Futuristic antenna or spire
+                if (building.glow) {
+                    ctx.fillStyle = 'rgba(0, 150, 255, 0.3)';
+                    ctx.fillRect(building.x + building.width/2 - 2, buildingY - 20, 4, 20);
+                    ctx.fillStyle = 'rgba(0, 150, 255, 0.6)';
+                    ctx.fillRect(building.x + building.width/2 - 1, buildingY - 10, 2, 10);
+                }
+                
+                // Detailed windows
+                const windowRows = Math.floor(building.height / 20);
+                const windowCols = Math.floor(building.width / 15);
+                
+                for (let row = 0; row < windowRows; row++) {
+                    for (let col = 0; col < windowCols; col++) {
+                        const windowX = building.x + 8 + col * 15;
+                        const windowY = buildingY + 8 + row * 20;
+                        
+                        if (windowX < building.x + building.width - 8 && windowY < buildingY + building.height - 8) {
+                            // Random lit windows
+                            if (Math.random() > 0.5) {
+                                ctx.fillStyle = Math.random() > 0.5 ? 
+                                    'rgba(100, 200, 255, 0.6)' : 
+                                    'rgba(255, 220, 100, 0.5)';
+                                ctx.fillRect(windowX, windowY, 6, 10);
+                                
+                                // Window glow
+                                if (Math.random() > 0.7) {
+                                    ctx.fillStyle = 'rgba(100, 200, 255, 0.2)';
+                                    ctx.fillRect(windowX - 2, windowY - 2, 10, 14);
+                                }
+                            } else {
+                                // Dark windows
+                                ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+                                ctx.fillRect(windowX, windowY, 6, 10);
+                            }
+                        }
+                    }
+                }
+                
+                // Building base
+                ctx.fillStyle = 'rgba(20, 25, 45, 0.9)';
+                ctx.fillRect(building.x - 3, buildingY + building.height - 5, building.width + 6, 10);
+            });
+            
+            // Add some floating platforms in the distance
+            for (let i = 0; i < 5; i++) {
+                const platformX = 200 + i * 200 + Math.sin(gameState.gameTime * 0.01 + i) * 50;
+                const platformY = 100 + i * 40;
+                const platformWidth = 60 + Math.random() * 40;
+                const platformHeight = 5;
+                
+                // Platform glow effect
+                ctx.fillStyle = 'rgba(0, 100, 200, 0.1)';
+                ctx.fillRect(platformX - 5, platformY - 2, platformWidth + 10, platformHeight + 4);
+                
+                // Platform
+                ctx.fillStyle = 'rgba(40, 60, 100, 0.8)';
+                ctx.fillRect(platformX, platformY, platformWidth, platformHeight);
+                
+                // Platform lights
+                ctx.fillStyle = 'rgba(0, 150, 255, 0.6)';
+                ctx.fillRect(platformX + 5, platformY - 2, 3, 2);
+                ctx.fillRect(platformX + platformWidth - 8, platformY - 2, 3, 2);
+            }
+        }
         
         const gameState = {
             defense: { x: 100, y: canvas.height - 100, angle: 0, health: 100 },
@@ -419,15 +570,15 @@
                 ctx.translate(this.x, this.y);
                 
                 if (this.isLarge) {
-                    ctx.fillStyle = this.isCyberAttacked ? '#ff00ff' : '#cc0000';
+                    ctx.fillStyle = this.isCyberAttacked ? '#00ffff' : '#cc0000';
                     ctx.fillRect(-20, -15, 40, 30);
-                    ctx.fillStyle = this.isCyberAttacked ? '#ff00ff' : '#dd0000';
+                    ctx.fillStyle = this.isCyberAttacked ? '#00ffff' : '#dd0000';
                     ctx.fillRect(-35, -5, 15, 10);
                     ctx.fillRect(20, -5, 15, 10);
-                    ctx.fillStyle = this.isCyberAttacked ? '#ff00ff' : '#ff0055';
+                    ctx.fillStyle = this.isCyberAttacked ? '#00ffff' : '#ff0055';
                     ctx.fillRect(-10, -8, 20, 16);
                 } else {
-                    ctx.fillStyle = this.isCyberAttacked ? '#ff00ff' : '#ff0055';
+                    ctx.fillStyle = this.isCyberAttacked ? '#00ffff' : '#ff0055';
                     ctx.beginPath();
                     ctx.moveTo(0, -10);
                     ctx.lineTo(15, 10);
@@ -464,7 +615,7 @@
             }
             
             draw() {
-                ctx.fillStyle = '#00ff88';
+                ctx.fillStyle = '#00ffaa';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -492,17 +643,17 @@
                 
                 if (this.isExplosion) {
                     // Orange/yellow explosion
-                    ctx.fillStyle = `rgba(255, 165, 0, ${alpha * 0.8})`;
+                    ctx.fillStyle = `rgba(255, 100, 0, ${alpha * 0.8})`;
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.currentSize, 0, Math.PI * 2);
                     ctx.fill();
                     
-                    ctx.fillStyle = `rgba(255, 69, 0, ${alpha * 0.6})`;
+                    ctx.fillStyle = `rgba(255, 150, 0, ${alpha * 0.6})`;
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.currentSize * 0.6, 0, Math.PI * 2);
                     ctx.fill();
                     
-                    ctx.fillStyle = `rgba(255, 215, 0, ${alpha * 0.4})`;
+                    ctx.fillStyle = `rgba(255, 200, 0, ${alpha * 0.4})`;
                     ctx.beginPath();
                     ctx.arc(this.x, this.y, this.currentSize * 0.3, 0, Math.PI * 2);
                     ctx.fill();
@@ -531,7 +682,7 @@
             ctx.save();
             ctx.translate(gameState.defense.x, gameState.defense.y);
             
-            ctx.fillStyle = '#00ff88';
+            ctx.fillStyle = '#00ffaa';
             ctx.fillRect(-18, -12, 36, 24);
             ctx.beginPath();
             ctx.arc(0, 0, 15, 0, Math.PI * 2);
@@ -542,7 +693,7 @@
             ctx.stroke();
             
             ctx.rotate(gameState.defense.angle);
-            ctx.fillStyle = '#00ff88';
+            ctx.fillStyle = '#00ffaa';
             ctx.fillRect(0, -5, 50, 10);
             ctx.beginPath();
             ctx.arc(50, 0, 6, 0, Math.PI * 2);
@@ -554,7 +705,7 @@
             
             ctx.restore();
             
-            ctx.fillStyle = '#00ff88';
+            ctx.fillStyle = '#00ffaa';
             ctx.font = '12px Arial';
             ctx.fillText('HP:' + gameState.defense.health, gameState.defense.x - 20, gameState.defense.y + 35);
             ctx.fillText('P:' + gameState.penetrations + '/10', gameState.defense.x - 20, gameState.defense.y + 50);
@@ -562,61 +713,67 @@
         
         function drawGround() {
             const groundHeight = 80;
-            ctx.fillStyle = '#8b6914';
+            
+            // Ground gradient
+            const groundGradient = ctx.createLinearGradient(0, canvas.height - groundHeight, 0, canvas.height);
+            groundGradient.addColorStop(0, '#1a1a1a');
+            groundGradient.addColorStop(1, '#0a0a0a');
+            
+            ctx.fillStyle = groundGradient;
             ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
-            ctx.fillStyle = '#a0741d';
+            
+            // Ground details
+            ctx.fillStyle = '#222222';
+            for (let i = 0; i < canvas.width; i += 40) {
+                ctx.fillRect(i, canvas.height - groundHeight, 2, 5);
+            }
+            
+            // Ground border
+            ctx.fillStyle = '#333333';
             ctx.fillRect(0, canvas.height - groundHeight, canvas.width, 3);
         }
         
         function drawSky() {
-            const hour = (gameState.gameTime / 3600) % 24;
-            let skyColor;
+            // Dark night sky with subtle gradient
+            const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height - 100);
+            skyGradient.addColorStop(0, '#0a0a1a');
+            skyGradient.addColorStop(1, '#101025');
             
-            if (hour < 6) {
-                skyColor = 'rgb(10, 15, 30)';
-            } else if (hour < 8) {
-                const t = (hour - 6) / 2;
-                const r = Math.floor(10 + (135 - 10) * t);
-                const g = Math.floor(15 + (206 - 15) * t);
-                const b = Math.floor(30 + (235 - 30) * t);
-                skyColor = `rgb(${r}, ${g}, ${b})`;
-            } else if (hour < 18) {
-                skyColor = 'rgb(135, 206, 235)';
-            } else if (hour < 20) {
-                const t = (hour - 18) / 2;
-                const r = Math.floor(135 - 125 * t);
-                const g = Math.floor(206 - 190 * t);
-                const b = Math.floor(235 - 205 * t);
-                skyColor = `rgb(${r}, ${g}, ${b})`;
-            } else {
-                skyColor = 'rgb(10, 15, 30)';
-            }
-            
-            ctx.fillStyle = skyColor;
+            ctx.fillStyle = skyGradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height - 100);
+            
+            // Distant stars (very subtle)
+            for (let i = 0; i < 50; i++) {
+                const x = (i * 24 + gameState.gameTime * 0.02) % canvas.width;
+                const y = (i * 13) % (canvas.height - 200);
+                const size = Math.random() * 0.5;
+                
+                ctx.fillStyle = `rgba(255, 255, 255, ${0.1 + Math.random() * 0.1})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
         
         function drawCelestials() {
-            const hour = (gameState.gameTime / 3600) % 24;
+            // Subtle moon
+            ctx.fillStyle = 'rgba(200, 200, 220, 0.1)';
+            ctx.beginPath();
+            ctx.arc(canvas.width - 100, 80, 25, 0, Math.PI * 2);
+            ctx.fill();
             
-            if (hour >= 6 && hour < 18) {
-                ctx.fillStyle = '#ffff00';
-                ctx.beginPath();
-                ctx.arc(canvas.width - 100, 80, 35, 0, Math.PI * 2);
-                ctx.fill();
-            } else if ((hour >= 18 && hour < 24) || hour < 6) {
-                ctx.fillStyle = 'rgba(220, 220, 220, 0.7)';
-                ctx.beginPath();
-                ctx.arc(canvas.width - 100, 80, 30, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            // Moon glow
+            ctx.fillStyle = 'rgba(200, 200, 220, 0.05)';
+            ctx.beginPath();
+            ctx.arc(canvas.width - 100, 80, 35, 0, Math.PI * 2);
+            ctx.fill();
         }
         
         function drawRadar() {
             radarCtx.fillStyle = 'rgba(0, 0, 0, 0.8)';
             radarCtx.fillRect(0, 0, radarCanvas.width, radarCanvas.height);
             
-            radarCtx.strokeStyle = '#00ff88';
+            radarCtx.strokeStyle = '#00ffaa';
             radarCtx.lineWidth = 1;
             
             for (let i = 1; i <= 3; i++) {
@@ -634,7 +791,7 @@
             radarCtx.arc(75, 75, 60, -Math.PI / 3, Math.PI / 3);
             radarCtx.stroke();
             
-            radarCtx.fillStyle = '#00ff88';
+            radarCtx.fillStyle = '#00ffaa';
             radarCtx.beginPath();
             radarCtx.arc(75, 75, 2, 0, Math.PI * 2);
             radarCtx.fill();
@@ -650,7 +807,7 @@
                     const radarX = 75 + radarDist * Math.cos(angle);
                     const radarY = 75 + radarDist * Math.sin(angle);
                     
-                    radarCtx.fillStyle = plane.isCyberAttacked ? '#ff00ff' : (plane.isLarge ? '#ff6600' : '#ff0055');
+                    radarCtx.fillStyle = plane.isCyberAttacked ? '#00ffff' : (plane.isLarge ? '#ff6600' : '#ff0055');
                     radarCtx.beginPath();
                     radarCtx.arc(radarX, radarY, 2, 0, Math.PI * 2);
                     radarCtx.fill();
@@ -879,14 +1036,15 @@
         
         function drawGame() {
             drawSky();
-            drawGround();
             drawCelestials();
+            drawBackgroundBuildings();
+            drawGround();
             
             gameState.planes.forEach(p => p.draw());
             gameState.missiles.forEach(m => m.draw());
             
             gameState.enemyMissiles.forEach(m => {
-                ctx.fillStyle = m.targetPlane ? '#ff00ff' : '#ff6600';
+                ctx.fillStyle = m.targetPlane ? '#00ffff' : '#ff6600';
                 ctx.beginPath();
                 ctx.arc(m.x, m.y, m.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -923,6 +1081,7 @@
             document.getElementById('gameContainer').classList.add('active');
             gameRunning = true;
             showWarning('Invasion started');
+            createBackgroundBuildings();
             updateCyberButton();
             gameLoop();
         }
