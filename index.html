@@ -91,9 +91,10 @@
         
         .game-container {
             display: none;
-            width: 100%;
-            max-width: 1400px;
-            height: 700px;
+            width: 90vw;
+            height: 90vh;
+            max-width: 1200px;
+            max-height: 600px;
             position: relative;
             background: #87ceeb;
             border: 2px solid #333;
@@ -252,8 +253,8 @@
         const radarCtx = radarCanvas.getContext('2d');
         const warningArea = document.getElementById('warningArea');
         
-        canvas.width = 1400;
-        canvas.height = 700;
+        canvas.width = 1200;
+        canvas.height = 600;
         radarCanvas.width = 150;
         radarCanvas.height = 150;
         
@@ -263,7 +264,7 @@
         let mouseY = canvas.height / 2;
         
         const gameState = {
-            defense: { x: 100, y: canvas.height - 80, angle: 0, health: 100 },
+            defense: { x: 100, y: canvas.height - 100, angle: 0, health: 100 },
             planes: [],
             missiles: [],
             enemyMissiles: [],
@@ -422,7 +423,7 @@
         }
         
         function drawGround() {
-            const groundHeight = 100;
+            const groundHeight = 80;
             ctx.fillStyle = '#8b6914';
             ctx.fillRect(0, canvas.height - groundHeight, canvas.width, groundHeight);
             ctx.fillStyle = '#a0741d';
